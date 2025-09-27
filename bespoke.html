@@ -32,43 +32,7 @@
     <link rel="stylesheet" href="handloom.css">
 </head>
 <body class="bg-cream font-sans">
-    <header class="bg-cream/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-cocoa/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center">
-                    <a href="handloom.html" class="text-2xl font-serif font-bold text-cocoa">KalamKriti</a>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="products.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
-                    <a href="weavers.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
-                    <a href="bespoke.html" class="text-maroon font-medium">Bespoke Studio</a>
-                    <a href="handloom.html#story" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Story</a>
-                    <a href="dashboard.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <a href="login.html" class="text-cocoa hover:text-maroon transition-colors font-medium hidden md:block">Login</a>
-                    <a href="register.html" class="bg-maroon text-white px-4 py-2 rounded-lg font-medium hover:bg-maroon/90 transition-colors hidden md:block">Sign Up</a>
-                    <button class="md:hidden text-cocoa" id="mobile-menu-button">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 bg-cream border-t border-cocoa/10">
-                <a href="products.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
-                <a href="weavers.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
-                <a href="bespoke.html" class="block px-3 py-2 text-maroon font-medium">Bespoke Studio</a>
-                <a href="handloom.html#story" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Our Story</a>
-                <a href="dashboard.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
-                <a href="login.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Login</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header will be rendered by header-component.js -->
 
     <!-- Hero Section -->
     <section class="pt-24 pb-16 bg-gradient-to-br from-maroon/20 to-gold/20">
@@ -441,6 +405,18 @@
     </footer>
 
     <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for auth-header.js to load and check authentication
+            setTimeout(() => {
+                if (typeof authHeader !== 'undefined' && !authHeader.isAuthenticated()) {
+                    alert('Please log in to access the Bespoke Studio.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }, 100);
+        });
+
         // Bespoke form functionality
         function openBespokeForm() {
             const modal = document.getElementById('bespoke-modal');
@@ -462,7 +438,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const bespokeForm = document.getElementById('bespoke-form');
             if (bespokeForm) {
-                bespokeForm.addEventListener('submit', function(e) {
+                bespokeForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
                     const submitButton = this.querySelector('button[type="submit"]');
@@ -470,13 +446,69 @@
                     submitButton.textContent = 'Submitting...';
                     submitButton.disabled = true;
                     
-                    setTimeout(() => {
-                        alert('Thank you for your bespoke project request! Our design team will contact you within 24 hours to discuss your vision.');
-                        closeBespokeForm();
-                        this.reset();
+                    try {
+                        // Get form data
+                        const formData = new FormData(bespokeForm);
+                        const data = Object.fromEntries(formData.entries());
+                        
+                        // Basic validation
+                        if (!data.firstName || !data.lastName || !data.email || !data.phone || 
+                            !data.projectType || !data.budget || !data.timeline || !data.description) {
+                            alert('Please fill in all required fields.');
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                            return;
+                        }
+                        
+                        // Get auth token
+                        const token = localStorage.getItem('authToken');
+                        if (!token) {
+                            alert('Please log in to submit a bespoke request.');
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                            return;
+                        }
+                        
+                        // Submit to backend
+                        const response = await fetch('/api/bespoke/request', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                projectType: data.projectType,
+                                budget: data.budget,
+                                timeline: data.timeline,
+                                description: data.description,
+                                preferences: {
+                                    colors: data.colors ? data.colors.split(',').map(c => c.trim()) : [],
+                                    patterns: data.patterns ? data.patterns.split(',').map(p => p.trim()) : [],
+                                    materials: data.materials ? data.materials.split(',').map(m => m.trim()) : []
+                                }
+                            })
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            alert(`Thank you for your bespoke request! Your request number is ${result.request.requestNumber}. We will contact you within 24 hours to discuss your project details.`);
+                            
+                            // Close modal
+                            closeBespokeForm();
+                            
+                            // Reset form
+                            bespokeForm.reset();
+                        } else {
+                            alert(`Error: ${result.message}`);
+                        }
+                    } catch (error) {
+                        console.error('Error submitting bespoke request:', error);
+                        alert('An error occurred while submitting your request. Please try again.');
+                    } finally {
                         submitButton.textContent = originalText;
                         submitButton.disabled = false;
-                    }, 1500);
+                    }
                 });
             }
         });
@@ -496,6 +528,8 @@
             }
         });
     </script>
+    <script src="header-component.js"></script>
+    <script src="auth.js"></script>
     <script src="handloom.js"></script>
 </body>
 </html>

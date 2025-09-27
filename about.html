@@ -32,43 +32,7 @@
     <link rel="stylesheet" href="handloom.css">
 </head>
 <body class="bg-cream font-sans">
-    <header class="bg-cream/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-cocoa/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center">
-                    <a href="handloom.html" class="text-2xl font-serif font-bold text-cocoa">KalamKriti</a>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="products.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
-                    <a href="weavers.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
-                    <a href="bespoke.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Bespoke Studio</a>
-                    <a href="about.html" class="text-maroon font-medium">About Us</a>
-                    <a href="dashboard.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <a href="login.html" class="text-cocoa hover:text-maroon transition-colors font-medium hidden md:block">Login</a>
-                    <a href="register.html" class="bg-maroon text-white px-4 py-2 rounded-lg font-medium hover:bg-maroon/90 transition-colors hidden md:block">Sign Up</a>
-                    <button class="md:hidden text-cocoa" id="mobile-menu-button">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 bg-cream border-t border-cocoa/10">
-                <a href="products.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
-                <a href="weavers.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
-                <a href="bespoke.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Bespoke Studio</a>
-                <a href="about.html" class="block px-3 py-2 text-maroon font-medium">About Us</a>
-                <a href="dashboard.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
-                <a href="login.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Login</a>
-            </div>
-        </div>
-    </header>
+    <!-- Header will be rendered by header-component.js -->
 
     <!-- Hero Section -->
     <section class="pt-24 pb-16 bg-gradient-to-br from-maroon/20 to-emerald/20">
@@ -426,6 +390,7 @@
         </div>
     </footer>
 
+    <script src="header-component.js"></script>
     <script src="handloom.js"></script>
 </body>
 </html>

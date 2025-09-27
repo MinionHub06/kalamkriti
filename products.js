@@ -222,22 +222,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Cart functionality
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
+// Cart functionality - using shared cart.js
 function addToCart(productId) {
     const product = productManager.products.find(p => p.id === productId);
     if (product) {
-        const existingItem = cart.find(item => item.id === productId);
-        if (existingItem) {
-            existingItem.quantity += 1;
+        // Use the shared addToCart function from cart.js
+        if (typeof window.addToCart === 'function') {
+            window.addToCart(product);
         } else {
-            cart.push({ ...product, quantity: 1 });
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Update cart count
-        if (typeof updateCartCount === 'function') {
+            // Fallback if cart.js is not loaded
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
         }
         
@@ -255,6 +256,8 @@ function addToCart(productId) {
         }, 1000);
     }
 }
+
+// Cart modal functions are now handled by cart.js
 
 // CSS for filter buttons
 const style = document.createElement('style');
