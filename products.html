@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - KalamKriti</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#F7F3E9',
+                        'linen': '#F5F1E8',
+                        'cocoa': '#3C2415',
+                        'maroon': '#8B1538',
+                        'emerald': '#2D5016',
+                        'gold': '#B8860B'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="handloom.css">
+</head>
+<body class="bg-cream font-sans">
+    <header class="bg-cream/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-cocoa/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a href="handloom.html" class="text-2xl font-serif font-bold text-cocoa">KalamKriti</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="products.html" class="text-maroon font-medium">Products</a>
+                    <a href="weavers.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
+                    <a href="handloom.html#story" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Story</a>
+                    <a href="dashboard.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Login</a>
+                    <a href="register.html" class="bg-maroon text-white px-4 py-2 rounded-lg font-medium hover:bg-maroon/90 transition-colors">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-emerald/10 to-maroon/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-cocoa mb-6">
+                    Our Handloom Collection
+                </h1>
+                <p class="text-xl text-cocoa/70 max-w-3xl mx-auto">
+                    Discover our curated collection of authentic handloom products, each piece telling a story of tradition and craftsmanship.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="py-8 bg-white border-b border-cocoa/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="sarees">Sarees</button>
+                <button class="filter-btn" data-category="kurtas">Kurtas</button>
+                <button class="filter-btn" data-category="dupattas">Dupattas</button>
+                <button class="filter-btn" data-category="shawls">Shawls</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="products-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <script src="products.js"></script>
+    <script src="handloom.js"></script>
+</body>
+</html>

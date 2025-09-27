@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - KalamKriti</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#F7F3E9',
+                        'linen': '#F5F1E8',
+                        'cocoa': '#3C2415',
+                        'maroon': '#8B1538',
+                        'emerald': '#2D5016',
+                        'gold': '#B8860B'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="handloom.css">
+</head>
+<body class="bg-cream font-sans min-h-screen flex items-center justify-center py-8">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-gradient-to-br from-emerald/20 to-maroon/30">
+        <svg class="absolute inset-0 w-full h-full object-cover" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <pattern id="loomPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <rect width="40" height="40" fill="#8B1538" opacity="0.1"/>
+                    <path d="M0 20h40M20 0v40" stroke="#2D5016" stroke-width="0.5" opacity="0.3"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#loomPattern)"/>
+        </svg>
+    </div>
+
+    <div class="relative z-10 w-full max-w-md mx-auto px-4">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-serif font-bold text-cocoa mb-2">KalamKriti</h1>
+            <p class="text-cocoa/70">Join Our Community</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="bg-white rounded-xl shadow-2xl p-8">
+            <h2 class="text-2xl font-serif font-bold text-cocoa mb-6 text-center">Create Account</h2>
+            
+            <form id="register-form" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstName" class="block text-sm font-medium text-cocoa mb-2">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required 
+                               class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                               placeholder="First name">
+                    </div>
+                    <div>
+                        <label for="lastName" class="block text-sm font-medium text-cocoa mb-2">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required 
+                               class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                               placeholder="Last name">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-cocoa mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                           placeholder="Enter your email">
+                </div>
+                
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-cocoa mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                           placeholder="Enter your phone number">
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-cocoa mb-2">Password</label>
+                    <input type="password" id="password" name="password" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                           placeholder="Create a password">
+                </div>
+                
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-cocoa mb-2">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors"
+                           placeholder="Confirm your password">
+                </div>
+                
+                <div>
+                    <label for="userType" class="block text-sm font-medium text-cocoa mb-2">I am a</label>
+                    <select id="userType" name="userType" required 
+                            class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors">
+                        <option value="">Select your role</option>
+                        <option value="customer">Customer</option>
+                        <option value="weaver">Weaver</option>
+                        <option value="buyer">Bulk Buyer</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" name="terms" required 
+                           class="rounded border-cocoa/20 text-maroon focus:ring-maroon">
+                    <label for="terms" class="ml-2 text-sm text-cocoa/70">
+                        I agree to the <a href="#" class="text-maroon hover:text-maroon/80">Terms of Service</a> and <a href="#" class="text-maroon hover:text-maroon/80">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="w-full bg-maroon hover:bg-maroon/90 text-white py-3 rounded-lg font-semibold transition-colors">
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-cocoa/70">Already have an account? 
+                    <a href="login.html" class="text-maroon hover:text-maroon/80 font-semibold transition-colors">Sign in</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="handloom.html" class="text-cocoa/70 hover:text-cocoa transition-colors">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

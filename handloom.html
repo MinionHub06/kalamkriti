@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KalamKriti - Weaving a Future</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#F7F3E9',
+                        'linen': '#F5F1E8',
+                        'cocoa': '#3C2415',
+                        'maroon': '#8B1538',
+                        'emerald': '#2D5016',
+                        'gold': '#B8860B'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="handloom.css">
+</head>
+<body class="bg-cream font-sans">
+    <header class="bg-cream/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-cocoa/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-serif font-bold text-cocoa">KalamKriti</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="products.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
+                    <a href="weavers.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
+                    <a href="bespoke.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Bespoke Studio</a>
+                    <a href="about.html" class="text-cocoa hover:text-maroon transition-colors font-medium">About Us</a>
+                    <a href="dashboard.html" class="text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="cart.html" class="text-cocoa hover:text-maroon transition-colors font-medium hidden md:block relative">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-maroon text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </a>
+                    <a href="login.html" class="text-cocoa hover:text-maroon transition-colors font-medium hidden md:block">Login</a>
+                    <a href="register.html" class="bg-maroon text-white px-4 py-2 rounded-lg font-medium hover:bg-maroon/90 transition-colors hidden md:block">Sign Up</a>
+                    <button class="md:hidden text-cocoa" id="mobile-menu-button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-cream border-t border-cocoa/10">
+                <a href="products.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Products</a>
+                <a href="weavers.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Our Weavers</a>
+                <a href="bespoke.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Bespoke Studio</a>
+                <a href="about.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">About Us</a>
+                <a href="dashboard.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Dashboard</a>
+                <a href="cart.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Cart</a>
+                <a href="login.html" class="block px-3 py-2 text-cocoa hover:text-maroon transition-colors font-medium">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald/20 to-maroon/30">
+            <svg class="absolute inset-0 w-full h-full object-cover" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <pattern id="loomPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <rect width="40" height="40" fill="#8B1538" opacity="0.1"/>
+                        <path d="M0 20h40M20 0v40" stroke="#2D5016" stroke-width="0.5" opacity="0.3"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#loomPattern)"/>
+                <g transform="translate(800, 200)">
+                    <ellipse cx="0" cy="150" rx="80" ry="120" fill="#3C2415" opacity="0.6"/>
+                    <rect x="-60" y="100" width="120" height="8" fill="#8B1538" opacity="0.8"/>
+                    <rect x="-40" y="120" width="80" height="4" fill="#2D5016" opacity="0.7"/>
+                </g>
+            </svg>
+        </div>
+        
+        <div class="hero-gradient absolute inset-0"></div>
+        
+        <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+                Weaving a Future
+            </h1>
+            <p class="text-xl sm:text-2xl text-cream/90 mb-4 font-light">
+                Authentic Handloom Since 1955
+            </p>
+            <p class="text-lg text-cream/80 mb-8 max-w-2xl mx-auto">
+                Where traditional craftsmanship meets conscious luxury. Every thread tells a story of heritage, innovation, and empowerment.
+            </p>
+            <button class="bg-maroon hover:bg-maroon/90 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg" onclick="scrollToShop()">
+                Shop New Arrivals
+            </button>
+        </div>
+    </section>
+
+    <section class="py-20 bg-linen texture-overlay">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-cocoa mb-4">
+                    Innovation Meets Tradition
+                </h2>
+                <p class="text-lg text-cocoa/70 max-w-2xl mx-auto">
+                    Pioneering the future of handloom with transparency, co-creation, and social impact
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-16 h-16 bg-emerald/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-semibold text-cocoa mb-4">Craft-Tech Verified</h3>
+                    <p class="text-cocoa/70 mb-6">
+                        Blockchain authenticity ensures every piece's journey from loom to your wardrobe is transparent and verified.
+                    </p>
+                    <button class="text-emerald font-semibold hover:text-emerald/80 transition-colors">
+                        Learn More →
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-16 h-16 bg-maroon/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-maroon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-semibold text-cocoa mb-4">Design Your Legacy</h3>
+                    <p class="text-cocoa/70 mb-6">
+                        Collaborate with master weavers to create bespoke pieces that reflect your personal style and values.
+                    </p>
+                    <button class="bg-maroon hover:bg-maroon/90 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                        Explore Bespoke Studio
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3.5M3 16.5h18"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-semibold text-cocoa mb-4">Empower the Artisan</h3>
+                    <p class="text-cocoa/70 mb-6">
+                        Supporting fair wages and our Apprentice Program to preserve traditional skills for future generations.
+                    </p>
+                    <button class="text-gold font-semibold hover:text-gold/80 transition-colors">
+                        Our Impact →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-cream" id="shop">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-cocoa mb-4">
+                    Curated for the Conscious Consumer
+                </h2>
+                <p class="text-lg text-cocoa/70">
+                    Discover our latest collection of handwoven masterpieces
+                </p>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
+                    <div class="aspect-w-3 aspect-h-4 bg-gradient-to-br from-maroon/20 to-emerald/20 relative overflow-hidden">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <pattern id="silk1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <rect width="20" height="20" fill="#8B1538"/>
+                                    <circle cx="10" cy="10" r="3" fill="#B8860B" opacity="0.7"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#silk1)"/>
+                            <path d="M50 50 Q150 100 250 50 Q200 200 150 350 Q100 200 50 50" fill="#2D5016" opacity="0.3"/>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif font-semibold text-cocoa mb-2">Heritage Silk Saree</h3>
+                        <p class="text-cocoa/60 text-sm mb-3">Handwoven Banarasi Silk</p>
+                        <p class="text-xl font-bold text-maroon">₹18,500</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
+                    <div class="aspect-w-3 aspect-h-4 bg-gradient-to-br from-emerald/20 to-gold/20 relative overflow-hidden">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <pattern id="cotton1" x="0" y="0" width="15" height="15" patternUnits="userSpaceOnUse">
+                                    <rect width="15" height="15" fill="#2D5016"/>
+                                    <rect x="2" y="2" width="11" height="11" fill="#F7F3E9" opacity="0.8"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#cotton1)"/>
+                            <ellipse cx="150" cy="200" rx="80" ry="150" fill="#B8860B" opacity="0.4"/>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif font-semibold text-cocoa mb-2">Organic Cotton Kurta</h3>
+                        <p class="text-cocoa/60 text-sm mb-3">Block Print Collection</p>
+                        <p class="text-xl font-bold text-maroon">₹3,200</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
+                    <div class="aspect-w-3 aspect-h-4 bg-gradient-to-br from-gold/20 to-maroon/20 relative overflow-hidden">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <pattern id="dupatta1" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
+                                    <rect width="25" height="25" fill="#B8860B"/>
+                                    <path d="M0 12.5h25M12.5 0v25" stroke="#8B1538" stroke-width="1" opacity="0.6"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#dupatta1)"/>
+                            <rect x="50" y="100" width="200" height="200" fill="#2D5016" opacity="0.2"/>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif font-semibold text-cocoa mb-2">Chanderi Dupatta</h3>
+                        <p class="text-cocoa/60 text-sm mb-3">Gold Zari Work</p>
+                        <p class="text-xl font-bold text-maroon">₹5,800</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
+                    <div class="aspect-w-3 aspect-h-4 bg-gradient-to-br from-emerald/30 to-cocoa/20 relative overflow-hidden">
+                        <svg class="w-full h-64 object-cover" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <pattern id="shawl1" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <rect width="30" height="30" fill="#2D5016"/>
+                                    <circle cx="15" cy="15" r="8" fill="#F7F3E9" opacity="0.9"/>
+                                    <circle cx="15" cy="15" r="4" fill="#8B1538" opacity="0.7"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#shawl1)"/>
+                            <path d="M0 0 Q150 50 300 0 L300 400 Q150 350 0 400 Z" fill="#3C2415" opacity="0.1"/>
+                        </svg>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif font-semibold text-cocoa mb-2">Pashmina Shawl</h3>
+                        <p class="text-cocoa/60 text-sm mb-3">Kashmir Handloom</p>
+                        <p class="text-xl font-bold text-maroon">₹12,000</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="bg-cocoa hover:bg-cocoa/90 text-cream px-8 py-3 rounded-lg font-semibold transition-colors">
+                    View All Products
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white" id="story">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="aspect-w-4 aspect-h-3 rounded-xl overflow-hidden shadow-2xl">
+                        <svg class="w-full h-96 object-cover" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice">
+                            <defs>
+                                <pattern id="workshop" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+                                    <rect width="50" height="50" fill="#F7F3E9"/>
+                                    <rect x="10" y="10" width="30" height="30" fill="#8B1538" opacity="0.1"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#workshop)"/>
+                            <rect x="100" y="200" width="400" height="200" fill="#3C2415" opacity="0.8"/>
+                            <rect x="120" y="220" width="60" height="80" fill="#2D5016" opacity="0.6"/>
+                            <rect x="200" y="220" width="60" height="80" fill="#2D5016" opacity="0.6"/>
+                            <rect x="280" y="220" width="60" height="80" fill="#2D5016" opacity="0.6"/>
+                            <rect x="360" y="220" width="60" height="80" fill="#2D5016" opacity="0.6"/>
+                            <polygon points="80,200 300,150 520,200" fill="#8B1538" opacity="0.7"/>
+                            <circle cx="50" cy="350" r="40" fill="#2D5016" opacity="0.6"/>
+                            <circle cx="550" cy="350" r="40" fill="#2D5016" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-cocoa mb-6">
+                        Visit Silainagar
+                    </h2>
+                    <p class="text-lg text-cocoa/70 mb-6">
+                        Experience the magic of handloom weaving firsthand. Our immersive workshop tours offer a rare glimpse into the artistry, dedication, and skill that goes into every KalamKriti creation.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-maroon rounded-full mr-4"></div>
+                            <p class="text-cocoa/80">Meet master weavers and apprentices</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-maroon rounded-full mr-4"></div>
+                            <p class="text-cocoa/80">Try your hand at the traditional loom</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-maroon rounded-full mr-4"></div>
+                            <p class="text-cocoa/80">Understand the complete creation process</p>
+                        </div>
+                    </div>
+                    <p class="text-xl font-serif text-cocoa mb-8 italic">
+                        "The Authentic Weaving Experience"
+                    </p>
+                    <button class="bg-emerald hover:bg-emerald/90 text-white px-8 py-3 rounded-lg font-semibold transition-colors" onclick="openContactForm()">
+                        Book Your Tour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-8 relative">
+            <button onclick="closeContactForm()" class="absolute top-4 right-4 text-cocoa hover:text-maroon transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <h3 class="text-2xl font-serif font-bold text-cocoa mb-6">Book Your Workshop Tour</h3>
+            
+            <form id="contact-form" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-cocoa mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-cocoa mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-cocoa mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label for="date" class="block text-sm font-medium text-cocoa mb-2">Preferred Date</label>
+                    <input type="date" id="date" name="date" required 
+                           class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors">
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-medium text-cocoa mb-2">Special Requests</label>
+                    <textarea id="message" name="message" rows="3" 
+                              class="w-full px-4 py-3 border border-cocoa/20 rounded-lg focus:ring-2 focus:ring-maroon focus:border-transparent transition-colors resize-none"></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-maroon hover:bg-maroon/90 text-white py-3 rounded-lg font-semibold transition-colors">
+                    Submit Booking Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-cocoa text-cream py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">KalamKriti</h3>
+                    <p class="text-cream/70 mb-4">
+                        Preserving traditional handloom craftsmanship while weaving a sustainable future for artisans and conscious consumers.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Shop</h4>
+                    <ul class="space-y-2 text-cream/70">
+                        <li><a href="products.html" class="hover:text-cream transition-colors">All Products</a></li>
+                        <li><a href="products.html?category=sarees" class="hover:text-cream transition-colors">Sarees</a></li>
+                        <li><a href="products.html?category=kurtas" class="hover:text-cream transition-colors">Kurtas</a></li>
+                        <li><a href="products.html?category=dupattas" class="hover:text-cream transition-colors">Dupattas</a></li>
+                        <li><a href="products.html?category=shawls" class="hover:text-cream transition-colors">Shawls</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Experience</h4>
+                    <ul class="space-y-2 text-cream/70">
+                        <li><a href="bespoke.html" class="hover:text-cream transition-colors">Bespoke Studio</a></li>
+                        <li><a href="handloom.html#story" class="hover:text-cream transition-colors">Workshop Tours</a></li>
+                        <li><a href="about.html" class="hover:text-cream transition-colors">Our Story</a></li>
+                        <li><a href="weavers.html" class="hover:text-cream transition-colors">Meet Our Weavers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://twitter.com/kalamkriti" class="text-cream/70 hover:text-cream transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com/kalamkriti" class="text-cream/70 hover:text-cream transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/kalamkriti" class="text-cream/70 hover:text-cream transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-cream/70 text-sm">
+                        Silainagar, West Bengal<br>
+                        contact@kalamkriti.com<br>
+                        +91 98765 43210
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-cream/20 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-cream/60 text-sm">
+                    © 2024 KalamKriti. All rights reserved. Handcrafted with love since 1955.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="about.html#privacy" class="text-cream/60 hover:text-cream text-sm transition-colors">Privacy Policy</a>
+                    <a href="about.html#terms" class="text-cream/60 hover:text-cream text-sm transition-colors">Terms of Service</a>
+                    <a href="about.html#shipping" class="text-cream/60 hover:text-cream text-sm transition-colors">Shipping Info</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="handloom.js"></script>
+</body>
+</html>
