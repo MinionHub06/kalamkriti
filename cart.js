@@ -1,6 +1,58 @@
 // Shared Cart Functionality
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
+// Add to cart function
+function addToCart(product) {
+    const existingItem = cart.find(item => item.id === product.id);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ ...product, quantity: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    // Show success notification
+    showNotification(`${product.name} added to cart!`);
+}
+
+// Update cart count in header
+function updateCartCount() {
+    const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCountElements = document.querySelectorAll('.cart-count');
+    cartCountElements.forEach(element => {
+        element.textContent = cartCount;
+        element.style.display = cartCount > 0 ? 'inline' : 'none';
+    });
+}
+
+// Show notification
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-emerald text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+    }, 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Initialize cart count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+});
+
 // Cart Modal Functions
 function toggleCartModal() {
     const modal = document.getElementById('cart-modal');
@@ -41,10 +93,15 @@ function loadCartModal() {
     
     cartItemsContainer.innerHTML = cart.map((item, index) => `
         <div class="flex items-center space-x-4 p-4 bg-white rounded-lg border border-cocoa/10">
-            <div class="w-16 h-16 bg-gradient-to-br from-maroon/30 to-gold/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
+            <div class="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                ${item.image ? 
+                    `<img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">` :
+                    `<div class="w-full h-full bg-gradient-to-br from-maroon/30 to-gold/30 rounded-lg flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>`
+                }
             </div>
             
             <div class="flex-1 min-w-0">
@@ -56,7 +113,7 @@ function loadCartModal() {
                         <span class="px-3 py-1 text-cocoa font-medium min-w-[2rem] text-center">${item.quantity}</span>
                         <button onclick="updateCartQuantity(${index}, 1)" class="px-3 py-1 text-cocoa hover:bg-cream transition-colors">+</button>
                     </div>
-                    <span class="text-lg font-bold text-maroon">₹${(item.price * item.quantity).toLocaleString()}</span>
+                    <span class="text-lg font-bold text-maroon">₹${((parseFloat(item.price) || 0) * (parseInt(item.quantity) || 0)).toLocaleString()}</span>
                 </div>
             </div>
             
@@ -72,9 +129,13 @@ function loadCartModal() {
 }
 
 function updateCartQuantity(index, change) {
-    cart[index].quantity += change;
-    if (cart[index].quantity <= 0) {
+    const currentQuantity = parseInt(cart[index].quantity) || 0;
+    const newQuantity = currentQuantity + change;
+    
+    if (newQuantity <= 0) {
         cart.splice(index, 1);
+    } else {
+        cart[index].quantity = newQuantity;
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     loadCartModal();
@@ -89,7 +150,11 @@ function removeFromCart(index) {
 }
 
 function updateCartModalSummary() {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = cart.reduce((sum, item) => {
+        const price = parseFloat(item.price) || 0;
+        const quantity = parseInt(item.quantity) || 0;
+        return sum + (price * quantity);
+    }, 0);
     const shipping = cart.length > 0 ? 200 : 0;
     const tax = Math.round(subtotal * 0.18); // 18% GST
     const total = subtotal + shipping + tax;

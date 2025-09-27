@@ -86,30 +86,55 @@ class ProductManager {
             ? this.products 
             : this.products.filter(product => product.category === this.currentFilter);
 
-        grid.innerHTML = filteredProducts.map(product => `
-            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
-                <a href="product-detail.html?id=${product.id}" class="block">
-                    <div class="aspect-w-3 aspect-h-4 bg-gradient-to-br from-maroon/20 to-emerald/20 relative overflow-hidden">
-                        <svg class="w-full h-64 object-cover" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
-                            ${this.generateProductSVG(product.image)}
-                        </svg>
+        grid.innerHTML = filteredProducts.map(product => {
+            // Get the primary image URL
+            const primaryImage = product.images && product.images.length > 0 
+                ? product.images.find(img => img.isPrimary) || product.images[0]
+                : null;
+            
+            const imageUrl = primaryImage ? primaryImage.url : this.getPlaceholderImage(product.category);
+            
+            return `
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group product-card">
+                    <a href="product-detail.html?id=${product._id || product.id}" class="block">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-maroon/20 to-emerald/20" style="height: 300px;">
+                        <img src="${imageUrl}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                        ${product.discount > 0 ? `<div class="absolute top-2 right-2 bg-maroon text-white px-2 py-1 rounded text-xs font-semibold">${product.discount}% OFF</div>` : ''}
                     </div>
-                </a>
-                <div class="p-6">
-                    <a href="product-detail.html?id=${product.id}" class="block">
-                        <h3 class="font-serif font-semibold text-cocoa mb-2 hover:text-maroon transition-colors">${product.name}</h3>
-                        <p class="text-cocoa/60 text-sm mb-3">${product.description}</p>
                     </a>
-                    <div class="flex justify-between items-center">
-                        <p class="text-xl font-bold text-maroon">₹${product.price.toLocaleString()}</p>
-                        <button onclick="addToCart(${product.id})" class="bg-maroon hover:bg-maroon/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
-                            Add to Cart
-                        </button>
+                    <div class="p-6">
+                        <a href="product-detail.html?id=${product._id || product.id}" class="block">
+                            <h3 class="font-serif font-semibold text-cocoa mb-2 hover:text-maroon transition-colors">${product.name}</h3>
+                            <p class="text-cocoa/60 text-sm mb-3">${product.shortDescription || product.description}</p>
+                        </a>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-2">
+                                <p class="text-xl font-bold text-maroon">₹${product.price.toLocaleString()}</p>
+                                ${product.originalPrice && product.originalPrice > product.price ? 
+                                    `<p class="text-sm text-cocoa/50 line-through">₹${product.originalPrice.toLocaleString()}</p>` : ''
+                                }
+                            </div>
+                            <button onclick="addToCart('${product._id || product.id}')" class="bg-maroon hover:bg-maroon/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Add to Cart
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
+    }
+
+    getPlaceholderImage(category) {
+        const placeholders = {
+            'sarees': 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=1000&fit=crop&crop=center&q=80',
+            'kurtas': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&h=1000&fit=crop&crop=center&q=80',
+            'dupattas': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=1000&fit=crop&crop=center&q=80',
+            'shawls': 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=800&h=1000&fit=crop&crop=center&q=80',
+            'accessories': 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&h=1000&fit=crop&crop=center&q=80',
+            'home_textiles': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=1000&fit=crop&crop=center&q=80'
+        };
+        return placeholders[category] || placeholders['sarees'];
     }
 
     generateProductSVG(imageType) {
@@ -224,11 +249,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Cart functionality - using shared cart.js
 function addToCart(productId) {
-    const product = productManager.products.find(p => p.id === productId);
+    const product = productManager.products.find(p => (p._id || p.id) === productId);
     if (product) {
+        // Prepare product data for cart
+        const cartProduct = {
+            id: product._id || product.id,
+            name: product.name,
+            price: product.price,
+            description: product.shortDescription || product.description,
+            image: product.images && product.images.length > 0 ? product.images[0].url : '',
+            category: product.category,
+            quantity: 1
+        };
+        
         // Use the shared addToCart function from cart.js
         if (typeof window.addToCart === 'function') {
-            window.addToCart(product);
+            window.addToCart(cartProduct);
         } else {
             // Fallback if cart.js is not loaded
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -236,7 +272,7 @@ function addToCart(productId) {
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                cart.push(cartProduct);
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();

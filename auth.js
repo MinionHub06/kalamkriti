@@ -121,8 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await auth.login(email, password);
             
             if (result.success) {
-                alert('Login successful! Redirecting to dashboard...');
-                window.location.href = 'dashboard.html';
+                alert('Login successful! Redirecting...');
+                const redirectUrl = localStorage.getItem('redirectAfterLogin');
+                if (redirectUrl) {
+                    localStorage.removeItem('redirectAfterLogin');
+                    window.location.href = redirectUrl;
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } else {
                 alert(result.error || 'Login failed. Please try again.');
                 submitButton.textContent = originalText;
@@ -199,8 +205,19 @@ function logout() {
 
 // Check authentication on page load
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.pathname.includes('dashboard.html')) {
+    // Update header component with current auth state
+    if (window.headerComponent) {
+        window.headerComponent.updateAuthState();
+    }
+    
+    // Check if user is on a protected page
+    const protectedPages = ['dashboard.html', 'product-detail.html'];
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    if (protectedPages.includes(currentPage)) {
         if (!auth.isAuthenticated()) {
+            // Store the intended destination
+            localStorage.setItem('redirectAfterLogin', window.location.href);
             window.location.href = 'login.html';
             return;
         }
@@ -211,6 +228,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (userNameElement) {
                 userNameElement.textContent = `Welcome, ${user.firstName}`;
             }
+        }
+    }
+    
+    // Check for redirect after login
+    const redirectUrl = localStorage.getItem('redirectAfterLogin');
+    if (redirectUrl && auth.isAuthenticated()) {
+        localStorage.removeItem('redirectAfterLogin');
+        if (window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html')) {
+            window.location.href = redirectUrl;
         }
     }
 });
